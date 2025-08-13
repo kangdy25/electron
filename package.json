@@ -1,0 +1,24 @@
+{
+  "name": "electron",
+  "version": "1.0.0",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kangdy25/electron.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kangdy25/electron/issues"
+  },
+  "homepage": "https://github.com/kangdy25/electron#readme",
+  "description": "",
+  "devDependencies": {
+    "electron": "^37.2.6"
+  }
+}

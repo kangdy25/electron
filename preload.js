@@ -10,4 +10,5 @@ contextBridge.exposeInMainWorld('versions', {
 
 contextBridge.exposeInMainWorld('electronAPI', {
   sendMessage: (message) => ipcRenderer.invoke('send-main-message', message),
+  openFile: () => ipcRenderer.invoke('dialog:openFile'),
 });

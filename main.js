@@ -1,5 +1,6 @@
-import { app, BrowserWindow, ipcMain } from 'electron';
+import { app, BrowserWindow, ipcMain, dialog } from 'electron';
 import { fileURLToPath } from 'url';
+import fs from 'fs/promises';
 import path from 'path';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -28,6 +29,20 @@ app.whenReady().then(() => {
     console.log(`렌더러로부터 받은 메시지: ${message}`);
     // '잘 받았어!'라는 메시지를 렌더러로 돌려줍니다.
     return '안녕 이영이😆😆';
+  });
+
+  // 'dialog:openFile' 채널의 메시지를 받으면
+  ipcMain.handle('dialog:openFile', async () => {
+    // 다이얼로그를 띄워 파일 선택을 요청합니다.
+    const { canceled, filePaths } = await dialog.showOpenDialog();
+    if (canceled) {
+      return; // 사용자가 취소하면 종료
+    } else {
+      const filePath = filePaths[0];
+      // Node.js의 'fs' 모듈을 사용해 파일을 읽습니다.
+      const fileContent = await fs.readFile(filePath, { encoding: 'utf8' });
+      return fileContent;
+    }
   });
 
   app.on('activate', () => {

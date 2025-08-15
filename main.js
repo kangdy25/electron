@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, ipcMain } from 'electron';
 import { fileURLToPath } from 'url';
 import path from 'path';
 
@@ -10,7 +10,6 @@ const createWindow = () => {
     width: 800,
     height: 600,
     webPreferences: {
-      // path.join 대신 path.join을 사용하도록 수정
       nodeIntegration: false,
       contextIsolation: true,
       preload: path.join(__dirname, 'preload.js')
@@ -21,7 +20,15 @@ const createWindow = () => {
 };
 
 app.whenReady().then(() => {
+  ipcMain.handle('ping', () => 'pong');
   createWindow();
+
+  // 렌더러 프로세스에서 'send-main-message' 채널로 메시지가 오면
+  ipcMain.handle('send-main-message', (event, message) => {
+    console.log(`렌더러로부터 받은 메시지: ${message}`);
+    // '잘 받았어!'라는 메시지를 렌더러로 돌려줍니다.
+    return '안녕 이영이😆😆';
+  });
 
   app.on('activate', () => {
     // macOS에서 Dock 아이콘을 클릭했을 때 창이 없으면 새 창을 생성합니다.

@@ -13,9 +13,15 @@
     <title>Hello from Electron renderer!</title>
   </head>
   <body>
-    <h1>Hello from Electron renderer!</h1>
-    <p>👋</p>
-    <p id="info"></p>
+    <section>
+      <h1>안녕하세요, Electron!</h1>
+      <p>이것은 Electron으로 만든 첫 번째 데스크톱 앱입니다.</p>
+    </section>
+    <section>
+      <button id="send-message-btn">메인 프로세스에게 메시지 보내기</button>
+      <p>메인 프로세스의 응답: <strong id="response"></strong></p>
+      <p id="info"></p>
+    </section>
   </body>
   <script type="module" src="./renderer.js"></script>
 </html>

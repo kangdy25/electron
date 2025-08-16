@@ -1,7 +1,9 @@
-import { app, BrowserWindow, ipcMain, dialog } from 'electron';
+import { app, BrowserWindow } from 'electron';
 import { fileURLToPath } from 'url';
-import fs from 'fs/promises';
 import path from 'path';
+import { pingPong } from './main/pingPong.js';
+import { helloLeeyoung } from './main/helloLeeyoung.js';
+import { fileRead } from './main/fileRead.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -21,29 +23,11 @@ const createWindow = () => {
 };
 
 app.whenReady().then(() => {
-  ipcMain.handle('ping', () => 'pong');
+  pingPong();
+  helloLeeyoung();
+  fileRead();
+  
   createWindow();
-
-  // 렌더러 프로세스에서 'send-main-message' 채널로 메시지가 오면
-  ipcMain.handle('send-main-message', (event, message) => {
-    console.log(`렌더러로부터 받은 메시지: ${message}`);
-    // '잘 받았어!'라는 메시지를 렌더러로 돌려줍니다.
-    return '안녕 이영이😆😆';
-  });
-
-  // 'dialog:openFile' 채널의 메시지를 받으면
-  ipcMain.handle('dialog:openFile', async () => {
-    // 다이얼로그를 띄워 파일 선택을 요청합니다.
-    const { canceled, filePaths } = await dialog.showOpenDialog();
-    if (canceled) {
-      return; // 사용자가 취소하면 종료
-    } else {
-      const filePath = filePaths[0];
-      // Node.js의 'fs' 모듈을 사용해 파일을 읽습니다.
-      const fileContent = await fs.readFile(filePath, { encoding: 'utf8' });
-      return fileContent;
-    }
-  });
 
   app.on('activate', () => {
     // macOS에서 Dock 아이콘을 클릭했을 때 창이 없으면 새 창을 생성합니다.

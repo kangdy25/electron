@@ -8,18 +8,27 @@ import { fileRead } from './main/fileRead.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+const VITE_DEV_SERVER_URL = 'http://localhost:5173';
+
 const createWindow = () => {
   const win = new BrowserWindow({
     width: 800,
     height: 600,
     webPreferences: {
-      nodeIntegration: false,
-      contextIsolation: true,
       preload: path.join(__dirname, 'preload.js')
     }
   });
 
-  win.loadFile('index.html');
+  const isDev = process.env.NODE_ENV === "development";
+
+  if (isDev) {
+    // 개발 모드 → Vite dev server 사용
+    win.loadURL(VITE_DEV_SERVER_URL);
+    win.webContents.openDevTools();
+  } else {
+    // 배포 모드 → 빌드된 dist/index.html 사용
+    win.loadFile(path.join(__dirname, "../dist/index.html"));
+  }
 };
 
 app.whenReady().then(() => {

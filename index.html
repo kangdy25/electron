@@ -1,33 +1,11 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta
-      http-equiv="Content-Security-Policy"
-      content="default-src 'self'; script-src 'self'"
-    />
-    <meta
-      http-equiv="X-Content-Security-Policy"
-      content="default-src 'self'; script-src 'self'"
-    />
-    <title>Hello from Electron renderer!</title>
+    <title>React + Vite + Electron</title>
   </head>
   <body>
-    <section>
-      <h1>안녕하세요, Electron!</h1>
-      <p>이것은 Electron으로 만든 첫 번째 데스크톱 앱입니다.</p>
-    </section>
-    <section>
-      <button id="send-message-btn">메인 프로세스에게 메시지 보내기</button>
-      <p>메인 프로세스의 응답: <strong id="response"></strong></p>
-      <p id="info"></p>
-    </section>
-    <section>
-      <h2>파일 시스템 접근하기</h2>
-      <button id="open-file-btn">파일 열기</button>
-      <br><br>
-      <textarea id="file-content" rows="10" cols="50" placeholder="여기에 파일 내용이 표시됩니다."></textarea>
-    </section>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
   </body>
-  <script type="module" src="./renderer.js"></script>
 </html>
